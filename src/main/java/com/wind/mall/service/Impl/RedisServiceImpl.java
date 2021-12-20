@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author HouYongJu
  * @create 2021-12-18 14:59
@@ -26,16 +28,16 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public boolean expire(String key, long expire) {
-        return false;
+        return stringRedisTemplate.expire(key, expire, TimeUnit.SECONDS);
     }
 
     @Override
     public void remove(String key) {
-
+        stringRedisTemplate.delete(key);
     }
 
     @Override
     public Long increment(String key, long delta) {
-        return null;
+        return stringRedisTemplate.opsForValue().increment(key, delta);
     }
 }
